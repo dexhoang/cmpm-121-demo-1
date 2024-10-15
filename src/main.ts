@@ -10,13 +10,13 @@ header.innerHTML = gameName;
 app.append(header);
 
 //create button
-const button = document.createElement('button');
-button.textContent = '🥕';
+const button = document.createElement("button");
+button.textContent = "🥕";
 document.body.appendChild(button);
 
 //checks if button was clicked
 if (button) {
-    button.addEventListener("click", () => {
-        console.log("Button was clicked!");
-    })
+  button.addEventListener("click", () => {
+    console.log("Button was clicked!");
+  });
 }
