@@ -9,10 +9,10 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
-//create button
+//create button - STEP 1
 const button = document.createElement("button");
 button.textContent = "🥕";
-document.body.appendChild(button);
+app.appendChild(button);
 
 //checks if button was clicked
 if (button) {
@@ -20,3 +20,17 @@ if (button) {
     console.log("Button was clicked!");
   });
 }
+
+//displays amount of times button was clicked - STEP 2
+let carrotCount = 0;
+
+const display = document.createElement("div");
+display.id = "counter";
+display.textContent = `Carrots: ${carrotCount}`;
+app.appendChild(display);
+
+button.addEventListener("click", () => {
+    carrotCount++;
+    display.textContent = `Carrots: ${carrotCount}`;
+})
+
