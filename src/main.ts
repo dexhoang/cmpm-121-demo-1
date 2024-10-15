@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
@@ -30,7 +31,13 @@ display.textContent = `Carrots: ${carrotCount}`;
 app.appendChild(display);
 
 button.addEventListener("click", () => {
+  carrotCount++;
+  display.textContent = `Carrots: ${carrotCount}`;
+});
+
+//increments counter by 1 every second - STEP 3
+const interval = setInterval(addCounter, 1000);
+function addCounter() {
     carrotCount++;
     display.textContent = `Carrots: ${carrotCount}`;
-})
-
+}
