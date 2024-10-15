@@ -79,3 +79,7 @@ button:focus-visible {
   margin-top: auto;
   font-size: xx-large;
 }
+
+#growthRate {
+  margin-top: 10px;
+}

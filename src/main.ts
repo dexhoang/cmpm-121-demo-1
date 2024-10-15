@@ -33,6 +33,11 @@ app.appendChild(display);
 button.addEventListener("click", () => {
   carrotCount++;
   display.textContent = `Carrots: ${carrotCount}`;
+  if (carrotCount >= 10) {
+    growthRate.disabled = false;
+  } else {
+    growthRate.disabled = true;
+  }
 });
 
 //increments counter by 1 every second - STEP 3
@@ -49,11 +54,37 @@ let lastTime: number | null = null;
 function updateCounter(timestamp: number) {
   if (lastTime !== null) {
     const deltaTime = (timestamp - lastTime) / 1000;
-    carrotCount += deltaTime;
+    carrotCount += deltaTime * growthRateValue;
     display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
+  }
+  if (carrotCount >= 10) {
+    growthRate.disabled = false;
+  } else {
+    growthRate.disabled = true;
   }
   lastTime = timestamp;
   requestAnimationFrame(updateCounter);
 }
 
-requestAnimationFrame(updateCounter);
+//adds buyable button to increase growth rate - STEP 5
+const growthRate = document.createElement("button");
+growthRate.id = "growthRate";
+growthRate.textContent = "Upgrade Growth Rate (10) +1";
+app.appendChild(growthRate);
+growthRate.disabled = true;
+
+let growthRateValue = 0;
+
+growthRate.addEventListener("click", () => {
+    console.log("purchased");
+    carrotCount -= 10;
+    growthRateValue += 1;
+    display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
+    requestAnimationFrame(updateCounter);
+
+    if (carrotCount >= 10) {
+        growthRate.disabled = false;
+      } else {
+        growthRate.disabled = true;
+      }
+});
