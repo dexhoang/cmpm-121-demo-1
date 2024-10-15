@@ -47,13 +47,13 @@ button.addEventListener("click", () => {
 let lastTime: number | null = null;
 
 function updateCounter(timestamp: number) {
-    if (lastTime !== null) {
-        const deltaTime = (timestamp - lastTime) / 1000;
-        carrotCount += deltaTime;
-        display.textContent =  `Carrots: ${Math.floor(carrotCount)}`;
-    }
-    lastTime = timestamp;
-    requestAnimationFrame(updateCounter);
+  if (lastTime !== null) {
+    const deltaTime = (timestamp - lastTime) / 1000;
+    carrotCount += deltaTime;
+    display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
+  }
+  lastTime = timestamp;
+  requestAnimationFrame(updateCounter);
 }
 
 requestAnimationFrame(updateCounter);
