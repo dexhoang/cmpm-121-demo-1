@@ -36,9 +36,24 @@ button.addEventListener("click", () => {
 });
 
 //increments counter by 1 every second - STEP 3
-const interval = setInterval(addCounter, 1000);
-function addCounter() {
-  carrotCount++;
-  display.textContent = `Carrots: ${carrotCount}`;
+// const interval = setInterval(addCounter, 1000);
+// function addCounter() {
+//   carrotCount++;
+//   display.textContent = `Carrots: ${carrotCount}`;
+// }
+// console.log(interval);
+
+//makes counter grow by fractional amount per animation frame - STEP 4
+let lastTime: number | null = null;
+
+function updateCounter(timestamp: number) {
+    if (lastTime !== null) {
+        const deltaTime = (timestamp - lastTime) / 1000;
+        carrotCount += deltaTime;
+        display.textContent =  `Carrots: ${Math.floor(carrotCount)}`;
+    }
+    lastTime = timestamp;
+    requestAnimationFrame(updateCounter);
 }
-console.log(interval);
+
+requestAnimationFrame(updateCounter);
