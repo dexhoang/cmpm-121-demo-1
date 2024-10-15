@@ -38,6 +38,7 @@ button.addEventListener("click", () => {
 //increments counter by 1 every second - STEP 3
 const interval = setInterval(addCounter, 1000);
 function addCounter() {
-    carrotCount++;
-    display.textContent = `Carrots: ${carrotCount}`;
+  carrotCount++;
+  display.textContent = `Carrots: ${carrotCount}`;
 }
+console.log(interval);
