@@ -143,7 +143,6 @@ B_Growth.textContent = `Upgrade Growth Rate (${B_Cost}) - B`;
 app.appendChild(B_Growth);
 B_Growth.disabled = true;
 
-
 B_Growth.addEventListener("click", () => {
   carrotCount -= B_Cost;
   growthRateValue += 2;
