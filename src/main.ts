@@ -13,6 +13,10 @@ header.innerHTML = gameName;
 header.style.color = "#ff7100";
 app.append(header);
 
+const description_instruction = document.createElement("div");
+description_instruction.textContent = "Hover Over Item To Show Description";
+description_instruction.style.fontSize = "20px";
+
 //create button - STEP 1
 const clicker = document.createElement("button");
 clicker.textContent = "🥕";
@@ -21,7 +25,7 @@ clicker.style.marginBottom = "20px";
 app.appendChild(clicker);
 
 //displays amount of times button was clicked - STEP 2
-let carrotCount = 0;
+let carrotCount = 200000;
 
 const display = document.createElement("div");
 display.id = "counter";
@@ -71,12 +75,15 @@ interface Item {
   cost: number;
   rate: number;
   purchases: number;
+  description: string;
 }
 
 const availableItems: Item[] = [
-  { name: "Buy Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0 },
-  { name: "Buy Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0 },
-  { name: "Buy Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0 },
+  { name: "Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0, description: "Cheerish yourself to very very small carrots"},
+  { name: "Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0, description: "A nice picnic basket full of carrots"},
+  { name: "Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0, description: "A big ol' box of carrots"},
+  { name: "Bunny 🐇", cost: 2000, rate: 75, purchases: 0, description: "Buy a bunny to sniff out carrots"},
+  { name: "Carrot Farmer 🧑‍🌾", cost: 4000, rate: 100, purchases: 0, description: "Hire a farmer to harvest the freshest carrots"},
 ];
 
 availableItems.forEach((item) => {
@@ -84,6 +91,7 @@ availableItems.forEach((item) => {
   button.textContent = `Buy ${item.name} (${item.cost})`;
   button.style.marginRight = "5px";
   button.style.marginBottom = "20px";
+  button.title = `${item.description}`;
   app.appendChild(button);
 
   const purchase = document.createElement("div");
@@ -125,5 +133,7 @@ function updateButtons() {
     }
   });
 }
+
+app.appendChild(description_instruction);
 
 requestAnimationFrame(updateCounter);
