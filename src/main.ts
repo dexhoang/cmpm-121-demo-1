@@ -25,7 +25,7 @@ clicker.style.marginBottom = "20px";
 app.appendChild(clicker);
 
 //displays amount of times button was clicked - STEP 2
-let carrotCount = 200000;
+let carrotCount = 0;
 
 const display = document.createElement("div");
 display.id = "counter";
@@ -79,11 +79,41 @@ interface Item {
 }
 
 const availableItems: Item[] = [
-  { name: "Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0, description: "Cheerish yourself to very very small carrots"},
-  { name: "Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0, description: "A nice picnic basket full of carrots"},
-  { name: "Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0, description: "A big ol' box of carrots"},
-  { name: "Bunny 🐇", cost: 2000, rate: 75, purchases: 0, description: "Buy a bunny to sniff out carrots"},
-  { name: "Carrot Farmer 🧑‍🌾", cost: 4000, rate: 100, purchases: 0, description: "Hire a farmer to harvest the freshest carrots"},
+  {
+    name: "Baby Carrot 🥕",
+    cost: 10,
+    rate: 0.1,
+    purchases: 0,
+    description: "Cheerish yourself to very very small carrots",
+  },
+  {
+    name: "Carrot Basket 🧺",
+    cost: 100,
+    rate: 2,
+    purchases: 0,
+    description: "A nice picnic basket full of carrots",
+  },
+  {
+    name: "Carrot Crate 📦",
+    cost: 1000,
+    rate: 50,
+    purchases: 0,
+    description: "A big ol' box of carrots",
+  },
+  {
+    name: "Bunny 🐇",
+    cost: 2000,
+    rate: 75,
+    purchases: 0,
+    description: "Buy a bunny to sniff out carrots",
+  },
+  {
+    name: "Carrot Farmer 🧑‍🌾",
+    cost: 4000,
+    rate: 100,
+    purchases: 0,
+    description: "Hire a farmer to harvest the freshest carrots",
+  },
 ];
 
 availableItems.forEach((item) => {
