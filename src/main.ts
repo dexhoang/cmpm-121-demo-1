@@ -21,7 +21,7 @@ clicker.style.marginBottom = "20px";
 app.appendChild(clicker);
 
 //displays amount of times button was clicked - STEP 2
-let carrotCount = 5000;
+let carrotCount = 0;
 
 const display = document.createElement("div");
 display.id = "counter";
@@ -67,19 +67,19 @@ app.appendChild(totalGrowth);
 
 //data driven design - STEP 9
 interface Item {
-  name: string,
-  cost: number,
-  rate: number,
-  purchases: number
-};
+  name: string;
+  cost: number;
+  rate: number;
+  purchases: number;
+}
 
-const availableItems : Item[] = [
-  {name: "Buy Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0},
-  {name: "Buy Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0},
-  {name: "Buy Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0},
+const availableItems: Item[] = [
+  { name: "Buy Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0 },
+  { name: "Buy Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0 },
+  { name: "Buy Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0 },
 ];
 
-availableItems.forEach(item => {
+availableItems.forEach((item) => {
   const button = document.createElement("button");
   button.textContent = `Buy ${item.name} (${item.cost})`;
   button.style.marginRight = "5px";
@@ -103,7 +103,7 @@ availableItems.forEach(item => {
 
       item.cost *= 1.15;
       item.purchases += 1;
-      button.textContent = `Buy ${item.name} (${Math.round(item.cost * 100)/100})`;
+      button.textContent = `Buy ${item.name} (${Math.round(item.cost * 100) / 100})`;
       purchase.textContent = `Purchased ${item.purchases} time(s)`;
     }
 
@@ -115,10 +115,12 @@ availableItems.forEach(item => {
 });
 
 function updateButtons() {
-  availableItems.forEach(item => {
-    const button = Array.from(app.querySelectorAll("button")).find(btn => btn.textContent?.startsWith(`Buy ${item.name}`)) as HTMLButtonElement;
+  availableItems.forEach((item) => {
+    const button = Array.from(app.querySelectorAll("button")).find((btn) =>
+      btn.textContent?.startsWith(`Buy ${item.name}`),
+    ) as HTMLButtonElement;
 
-    if(button) {
+    if (button) {
       button.disabled = carrotCount < item.cost;
     }
   });
