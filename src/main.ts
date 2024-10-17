@@ -87,7 +87,7 @@ function updateCounter(timestamp: number) {
 let growthRateValue = 0;
 const totalGrowth = document.createElement("div");
 totalGrowth.id = "totalGrowth";
-totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10)/10} Carrots/sec`;
+totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
 app.appendChild(totalGrowth);
 
 //num of upgrades status
@@ -121,7 +121,7 @@ A_Growth.addEventListener("click", () => {
   growthRateValue += 0.1;
   A_Total += 1;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10)/10} Carrots/sec`;
+  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   A_Num.textContent = `Purchased A ${A_Total} times`;
   requestAnimationFrame(updateCounter);
 
@@ -144,7 +144,7 @@ B_Growth.addEventListener("click", () => {
   growthRateValue += 2;
   B_Total += 1;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10)/10} Carrots/sec`;
+  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   B_Num.textContent = `Purchased B ${B_Total} times`;
   requestAnimationFrame(updateCounter);
 
@@ -167,7 +167,7 @@ C_Growth.addEventListener("click", () => {
   growthRateValue += 50;
   C_Total += 1;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10)/10} Carrots/sec`;
+  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   C_Num.textContent = `Purchased C ${C_Total} times`;
   requestAnimationFrame(updateCounter);
 
@@ -177,4 +177,3 @@ C_Growth.addEventListener("click", () => {
     C_Growth.disabled = true;
   }
 });
-
