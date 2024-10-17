@@ -21,44 +21,23 @@ clicker.style.marginBottom = "20px";
 app.appendChild(clicker);
 
 //displays amount of times button was clicked - STEP 2
-let carrotCount = 0;
+let carrotCount = 5000;
 
 const display = document.createElement("div");
 display.id = "counter";
 display.textContent = `Carrots: ${carrotCount}`;
 display.style.fontFamily = "inherit";
 display.style.fontWeight = "bold";
+display.style.fontSize = "35px";
 display.style.marginBottom = "10px";
-display.style.color = "#fbbb89"
+display.style.color = "#fbbb89";
 app.appendChild(display);
 
 clicker.addEventListener("click", () => {
   carrotCount++;
   display.textContent = `Carrots: ${carrotCount}`;
-  if (carrotCount >= A_Cost) {
-    A_Growth.disabled = false;
-  } else {
-    A_Growth.disabled = true;
-  }
-  if (carrotCount >= B_Cost) {
-    B_Growth.disabled = false;
-  } else {
-    B_Growth.disabled = true;
-  }
-  if (carrotCount >= C_Cost) {
-    C_Growth.disabled = false;
-  } else {
-    C_Growth.disabled = true;
-  }
+  updateButtons();
 });
-
-//increments counter by 1 every second - STEP 3
-// const interval = setInterval(addCounter, 1000);
-// function addCounter() {
-//   carrotCount++;
-//   display.textContent = `Carrots: ${carrotCount}`;
-// }
-// console.log(interval);
 
 //makes counter grow by fractional amount per animation frame - STEP 4
 let lastTime: number | null = null;
@@ -69,22 +48,8 @@ function updateCounter(timestamp: number) {
     carrotCount += deltaTime * growthRateValue;
     display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   }
-  if (carrotCount >= A_Cost) {
-    A_Growth.disabled = false;
-  } else {
-    A_Growth.disabled = true;
-  }
-  if (carrotCount >= B_Cost) {
-    B_Growth.disabled = false;
-  } else {
-    B_Growth.disabled = true;
-  }
-  if (carrotCount >= C_Cost) {
-    C_Growth.disabled = false;
-  } else {
-    C_Growth.disabled = true;
-  }
   lastTime = timestamp;
+  updateButtons();
   requestAnimationFrame(updateCounter);
 }
 
@@ -96,105 +61,67 @@ let growthRateValue = 0;
 const totalGrowth = document.createElement("div");
 totalGrowth.id = "totalGrowth";
 totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
+totalGrowth.style.marginBottom = "20px";
+totalGrowth.style.fontSize = "18px";
 app.appendChild(totalGrowth);
 
-//num of upgrades status
-let A_Total = 0;
-const A_Num = document.createElement("div");
-A_Num.id = "A_Num";
-A_Num.textContent = `Purchased Baby Carrot(s) ${A_Total} times`;
-app.appendChild(A_Num);
+//data driven design - STEP 9
+interface Item {
+  name: string,
+  cost: number,
+  rate: number,
+  purchases: number
+};
 
-let B_Total = 0;
-const B_Num = document.createElement("div");
-B_Num.id = "B_Num";
-B_Num.textContent = `Purchased Carrot Basket(s) ${B_Total} times`;
-app.appendChild(B_Num);
+const availableItems : Item[] = [
+  {name: "Buy Baby Carrot 🥕", cost: 10, rate: 0.1, purchases: 0},
+  {name: "Buy Carrot Basket 🧺", cost: 100, rate: 2, purchases: 0},
+  {name: "Buy Carrot Crate 📦", cost: 1000, rate: 50, purchases: 0},
+];
 
-let C_Total = 0;
-const C_Num = document.createElement("div");
-C_Num.id = "C_Num";
-C_Num.textContent = `Purchased Carrot Crate(s) ${C_Total} times`;
-C_Num.style.marginBottom = "20px";
-app.appendChild(C_Num);
+availableItems.forEach(item => {
+  const button = document.createElement("button");
+  button.textContent = `Buy ${item.name} (${item.cost})`;
+  button.style.marginRight = "5px";
+  button.style.marginBottom = "20px";
+  app.appendChild(button);
 
-//A Upgrade
-let A_Cost = 10;
-const A_Growth = document.createElement("button");
-A_Growth.id = "A_Growth";
-A_Growth.textContent = `Buy Baby Carrot (${A_Cost}) 🥕`;
-A_Growth.style.marginRight = "5px";
-app.appendChild(A_Growth);
-A_Growth.disabled = true;
+  const purchase = document.createElement("div");
+  purchase.textContent = `Purchased ${item.purchases} time(s)`;
+  purchase.style.marginBottom = "10px";
+  purchase.style.fontSize = "12px";
+  app.appendChild(purchase);
 
-A_Growth.addEventListener("click", () => {
-  carrotCount -= A_Cost;
-  growthRateValue += 0.1;
-  A_Total += 1;
-  A_Cost *= 1.15;
-  display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-  A_Num.textContent = `Purchased Baby Carrot(s) ${A_Total} times`;
-  A_Growth.textContent = `Buy Baby Carrot (${Math.round(A_Cost * 100) / 100}) 🥕`;
-  requestAnimationFrame(updateCounter);
+  button.disabled = true;
 
-  if (carrotCount >= A_Cost) {
-    A_Growth.disabled = false;
-  } else {
-    A_Growth.disabled = true;
-  }
+  button.addEventListener("click", () => {
+    if (carrotCount >= item.cost) {
+      carrotCount -= item.cost;
+      growthRateValue += item.rate;
+      display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
+      totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
+
+      item.cost *= 1.15;
+      item.purchases += 1;
+      button.textContent = `Buy ${item.name} (${Math.round(item.cost * 100)/100})`;
+      purchase.textContent = `Purchased ${item.purchases} time(s)`;
+    }
+
+    button.disabled = carrotCount < item.cost;
+    updateButtons();
+  });
+
+  app.appendChild(button);
 });
 
-//B Upgrade
-let B_Cost = 100;
-const B_Growth = document.createElement("button");
-B_Growth.id = "B_Growth";
-B_Growth.textContent = `Buy Carrot Basket (${B_Cost}) 🧺`;
-B_Growth.style.marginRight = "5px";
-app.appendChild(B_Growth);
-B_Growth.disabled = true;
+function updateButtons() {
+  availableItems.forEach(item => {
+    const button = Array.from(app.querySelectorAll("button")).find(btn => btn.textContent?.startsWith(`Buy ${item.name}`)) as HTMLButtonElement;
 
-B_Growth.addEventListener("click", () => {
-  carrotCount -= B_Cost;
-  growthRateValue += 2;
-  B_Total += 1;
-  B_Cost *= 1.15;
-  display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-  B_Num.textContent = `Purchased Carrot Basket(s) ${B_Total} times`;
-  B_Growth.textContent = `Buy Carrot Basket (${Math.round(B_Cost * 100) / 100}) 🧺`;
-  requestAnimationFrame(updateCounter);
+    if(button) {
+      button.disabled = carrotCount < item.cost;
+    }
+  });
+}
 
-  if (carrotCount >= B_Cost) {
-    B_Growth.disabled = false;
-  } else {
-    B_Growth.disabled = true;
-  }
-});
-
-//C Upgrade
-let C_Cost = 1000;
-const C_Growth = document.createElement("button");
-C_Growth.id = "C_Growth";
-C_Growth.textContent = `Buy Carrot Crate (${C_Cost}) 📦`;
-C_Growth.style.marginRight = "5px";
-app.appendChild(C_Growth);
-C_Growth.disabled = true;
-
-C_Growth.addEventListener("click", () => {
-  carrotCount -= C_Cost;
-  growthRateValue += 50;
-  C_Total += 1;
-  C_Cost *= 1.15;
-  display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
-  totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-  C_Num.textContent = `Purchased C ${C_Total} times`;
-  C_Growth.textContent = `Buy Carrot Crate(s) (${Math.round(C_Cost * 100) / 100}) 📦`;
-  requestAnimationFrame(updateCounter);
-
-  if (carrotCount >= C_Cost) {
-    C_Growth.disabled = false;
-  } else {
-    C_Growth.disabled = true;
-  }
-});
+requestAnimationFrame(updateCounter);
