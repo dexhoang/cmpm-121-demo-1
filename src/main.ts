@@ -27,17 +27,17 @@ app.appendChild(display);
 clicker.addEventListener("click", () => {
   carrotCount++;
   display.textContent = `Carrots: ${carrotCount}`;
-  if (carrotCount >= 10) {
+  if (carrotCount >= A_Cost) {
     A_Growth.disabled = false;
   } else {
     A_Growth.disabled = true;
   }
-  if (carrotCount >= 100) {
+  if (carrotCount >= B_Cost) {
     B_Growth.disabled = false;
   } else {
     B_Growth.disabled = true;
   }
-  if (carrotCount >= 1000) {
+  if (carrotCount >= C_Cost) {
     C_Growth.disabled = false;
   } else {
     C_Growth.disabled = true;
@@ -61,17 +61,17 @@ function updateCounter(timestamp: number) {
     carrotCount += deltaTime * growthRateValue;
     display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   }
-  if (carrotCount >= 10) {
+  if (carrotCount >= A_Cost) {
     A_Growth.disabled = false;
   } else {
     A_Growth.disabled = true;
   }
-  if (carrotCount >= 100) {
+  if (carrotCount >= B_Cost) {
     B_Growth.disabled = false;
   } else {
     B_Growth.disabled = true;
   }
-  if (carrotCount >= 1000) {
+  if (carrotCount >= C_Cost) {
     C_Growth.disabled = false;
   } else {
     C_Growth.disabled = true;
@@ -110,22 +110,25 @@ C_Num.textContent = `Purchased C ${C_Total} times`;
 app.appendChild(C_Num);
 
 //A Upgrade
+let A_Cost = 10;
 const A_Growth = document.createElement("button");
 A_Growth.id = "A_Growth";
-A_Growth.textContent = "Upgrade Growth Rate (10) - A";
+A_Growth.textContent = `Upgrade Growth Rate (${A_Cost}) - A`;
 app.appendChild(A_Growth);
 A_Growth.disabled = true;
 
 A_Growth.addEventListener("click", () => {
-  carrotCount -= 10;
+  carrotCount -= A_Cost;
   growthRateValue += 0.1;
   A_Total += 1;
+  A_Cost *= 1.15;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   A_Num.textContent = `Purchased A ${A_Total} times`;
+  A_Growth.textContent = `Upgrade Growth Rate (${Math.round(A_Cost * 100) / 100}) - A`;
   requestAnimationFrame(updateCounter);
 
-  if (carrotCount >= 10) {
+  if (carrotCount >= A_Cost) {
     A_Growth.disabled = false;
   } else {
     A_Growth.disabled = true;
@@ -133,22 +136,26 @@ A_Growth.addEventListener("click", () => {
 });
 
 //B Upgrade
+let B_Cost = 100;
 const B_Growth = document.createElement("button");
 B_Growth.id = "B_Growth";
-B_Growth.textContent = "Upgrade Growth Rate (100) - B";
+B_Growth.textContent = `Upgrade Growth Rate (${B_Cost}) - B`;
 app.appendChild(B_Growth);
 B_Growth.disabled = true;
 
+
 B_Growth.addEventListener("click", () => {
-  carrotCount -= 100;
+  carrotCount -= B_Cost;
   growthRateValue += 2;
   B_Total += 1;
+  B_Cost *= 1.15;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   B_Num.textContent = `Purchased B ${B_Total} times`;
+  B_Growth.textContent = `Upgrade Growth Rate (${Math.round(B_Cost * 100) / 100}) - B`;
   requestAnimationFrame(updateCounter);
 
-  if (carrotCount >= 100) {
+  if (carrotCount >= B_Cost) {
     B_Growth.disabled = false;
   } else {
     B_Growth.disabled = true;
@@ -156,22 +163,25 @@ B_Growth.addEventListener("click", () => {
 });
 
 //C Upgrade
+let C_Cost = 1000;
 const C_Growth = document.createElement("button");
 C_Growth.id = "C_Growth";
-C_Growth.textContent = "Upgrade Growth Rate (1000) - C";
+C_Growth.textContent = `Upgrade Growth Rate (${C_Cost}) - C`;
 app.appendChild(C_Growth);
 C_Growth.disabled = true;
 
 C_Growth.addEventListener("click", () => {
-  carrotCount -= 1000;
+  carrotCount -= C_Cost;
   growthRateValue += 50;
   C_Total += 1;
+  C_Cost *= 1.15;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   C_Num.textContent = `Purchased C ${C_Total} times`;
+  C_Growth.textContent = `Upgrade Growth Rate (${Math.round(C_Cost * 100) / 100}) - C`;
   requestAnimationFrame(updateCounter);
 
-  if (carrotCount >= 1000) {
+  if (carrotCount >= C_Cost) {
     C_Growth.disabled = false;
   } else {
     C_Growth.disabled = true;
