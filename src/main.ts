@@ -3,17 +3,21 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
+document.body.style.backgroundColor = "#fffff";
+
 const gameName = "Carrot Clicker";
 document.title = gameName;
 
 const header = document.createElement("h1");
 header.innerHTML = gameName;
+header.style.color = "#ff7100";
 app.append(header);
 
 //create button - STEP 1
 const clicker = document.createElement("button");
 clicker.textContent = "🥕";
 clicker.style.fontSize = "50px";
+clicker.style.marginBottom = "20px";
 app.appendChild(clicker);
 
 //displays amount of times button was clicked - STEP 2
@@ -22,6 +26,10 @@ let carrotCount = 0;
 const display = document.createElement("div");
 display.id = "counter";
 display.textContent = `Carrots: ${carrotCount}`;
+display.style.fontFamily = "inherit";
+display.style.fontWeight = "bold";
+display.style.marginBottom = "10px";
+display.style.color = "#fbbb89"
 app.appendChild(display);
 
 clicker.addEventListener("click", () => {
@@ -94,26 +102,28 @@ app.appendChild(totalGrowth);
 let A_Total = 0;
 const A_Num = document.createElement("div");
 A_Num.id = "A_Num";
-A_Num.textContent = `Purchased A ${A_Total} times`;
+A_Num.textContent = `Purchased Baby Carrot(s) ${A_Total} times`;
 app.appendChild(A_Num);
 
 let B_Total = 0;
 const B_Num = document.createElement("div");
 B_Num.id = "B_Num";
-B_Num.textContent = `Purchased B ${B_Total} times`;
+B_Num.textContent = `Purchased Carrot Basket(s) ${B_Total} times`;
 app.appendChild(B_Num);
 
 let C_Total = 0;
 const C_Num = document.createElement("div");
 C_Num.id = "C_Num";
-C_Num.textContent = `Purchased C ${C_Total} times`;
+C_Num.textContent = `Purchased Carrot Crate(s) ${C_Total} times`;
+C_Num.style.marginBottom = "20px";
 app.appendChild(C_Num);
 
 //A Upgrade
 let A_Cost = 10;
 const A_Growth = document.createElement("button");
 A_Growth.id = "A_Growth";
-A_Growth.textContent = `Upgrade Growth Rate (${A_Cost}) - A`;
+A_Growth.textContent = `Buy Baby Carrot (${A_Cost}) 🥕`;
+A_Growth.style.marginRight = "5px";
 app.appendChild(A_Growth);
 A_Growth.disabled = true;
 
@@ -124,8 +134,8 @@ A_Growth.addEventListener("click", () => {
   A_Cost *= 1.15;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-  A_Num.textContent = `Purchased A ${A_Total} times`;
-  A_Growth.textContent = `Upgrade Growth Rate (${Math.round(A_Cost * 100) / 100}) - A`;
+  A_Num.textContent = `Purchased Baby Carrot(s) ${A_Total} times`;
+  A_Growth.textContent = `Buy Baby Carrot (${Math.round(A_Cost * 100) / 100}) 🥕`;
   requestAnimationFrame(updateCounter);
 
   if (carrotCount >= A_Cost) {
@@ -139,7 +149,8 @@ A_Growth.addEventListener("click", () => {
 let B_Cost = 100;
 const B_Growth = document.createElement("button");
 B_Growth.id = "B_Growth";
-B_Growth.textContent = `Upgrade Growth Rate (${B_Cost}) - B`;
+B_Growth.textContent = `Buy Carrot Basket (${B_Cost}) 🧺`;
+B_Growth.style.marginRight = "5px";
 app.appendChild(B_Growth);
 B_Growth.disabled = true;
 
@@ -150,8 +161,8 @@ B_Growth.addEventListener("click", () => {
   B_Cost *= 1.15;
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-  B_Num.textContent = `Purchased B ${B_Total} times`;
-  B_Growth.textContent = `Upgrade Growth Rate (${Math.round(B_Cost * 100) / 100}) - B`;
+  B_Num.textContent = `Purchased Carrot Basket(s) ${B_Total} times`;
+  B_Growth.textContent = `Buy Carrot Basket (${Math.round(B_Cost * 100) / 100}) 🧺`;
   requestAnimationFrame(updateCounter);
 
   if (carrotCount >= B_Cost) {
@@ -165,7 +176,8 @@ B_Growth.addEventListener("click", () => {
 let C_Cost = 1000;
 const C_Growth = document.createElement("button");
 C_Growth.id = "C_Growth";
-C_Growth.textContent = `Upgrade Growth Rate (${C_Cost}) - C`;
+C_Growth.textContent = `Buy Carrot Crate (${C_Cost}) 📦`;
+C_Growth.style.marginRight = "5px";
 app.appendChild(C_Growth);
 C_Growth.disabled = true;
 
@@ -177,7 +189,7 @@ C_Growth.addEventListener("click", () => {
   display.textContent = `Carrots: ${Math.floor(carrotCount)}`;
   totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
   C_Num.textContent = `Purchased C ${C_Total} times`;
-  C_Growth.textContent = `Upgrade Growth Rate (${Math.round(C_Cost * 100) / 100}) - C`;
+  C_Growth.textContent = `Buy Carrot Crate(s) (${Math.round(C_Cost * 100) / 100}) 📦`;
   requestAnimationFrame(updateCounter);
 
   if (carrotCount >= C_Cost) {
