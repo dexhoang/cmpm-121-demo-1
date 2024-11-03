@@ -3,47 +3,37 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-document.body.style.backgroundColor = "#fffff";
+//configuration constants
+const INITIAL_COSTS = {
+  BABY_CARROT: 10,
+  CARROT_BASKET: 100,
+  CARROT_CRATE: 1000,
+  BUNNY: 2000,
+  CARROT_FARMER: 4000,
+};
 
-const gameName = "Carrot Clicker";
-document.title = gameName;
+const INITIAL_RATES = {
+  BABY_CARROT: 0.1,
+  CARROT_BASKET: 2,
+  CARROT_CRATE: 50,
+  BUNNY: 75,
+  CARROT_FARMER: 100,
+}
 
-const header = document.createElement("h1");
-header.innerHTML = gameName;
-header.style.color = "#ff7100";
-app.append(header);
-
-const description_instruction = document.createElement("div");
-description_instruction.textContent = "Hover Over Item To Show Description";
-description_instruction.style.fontSize = "20px";
-
-//create button - STEP 1
-const clicker = document.createElement("button");
-clicker.textContent = "🥕";
-clicker.style.fontSize = "50px";
-clicker.style.marginBottom = "20px";
-app.appendChild(clicker);
-
-//displays amount of times button was clicked - STEP 2
+//global variables
 let carrotCount = 0;
+let growthRateValue = 0;
 
-const display = document.createElement("div");
-display.id = "counter";
-display.textContent = `Carrots: ${carrotCount}`;
-display.style.fontFamily = "inherit";
-display.style.fontWeight = "bold";
-display.style.fontSize = "35px";
-display.style.marginBottom = "10px";
-display.style.color = "#fbbb89";
-app.appendChild(display);
+//interface definitions
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+  purchases: number;
+  description: string;
+}
 
-clicker.addEventListener("click", () => {
-  carrotCount++;
-  display.textContent = `Carrots: ${carrotCount}`;
-  updateButtons();
-});
-
-//makes counter grow by fractional amount per animation frame - STEP 4
+//helper functions
 let lastTime: number | null = null;
 
 function updateCounter(timestamp: number) {
@@ -57,66 +47,19 @@ function updateCounter(timestamp: number) {
   requestAnimationFrame(updateCounter);
 }
 
-//adds buyable button to increase growth rate - STEP 5
-//adds multiple upgrades/status - STEP 6
+function updateButtons() {
+  availableItems.forEach((item) => {
+    const button = Array.from(app.querySelectorAll("button")).find((btn) =>
+      btn.textContent?.startsWith(`Buy ${item.name}`),
+    ) as HTMLButtonElement;
 
-//growth rate status
-let growthRateValue = 0;
-const totalGrowth = document.createElement("div");
-totalGrowth.id = "totalGrowth";
-totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
-totalGrowth.style.marginBottom = "20px";
-totalGrowth.style.fontSize = "18px";
-app.appendChild(totalGrowth);
-
-//data driven design - STEP 9
-interface Item {
-  name: string;
-  cost: number;
-  rate: number;
-  purchases: number;
-  description: string;
+    if (button) {
+      button.disabled = carrotCount < item.cost;
+    }
+  });
 }
 
-const availableItems: Item[] = [
-  {
-    name: "Baby Carrot 🥕",
-    cost: 10,
-    rate: 0.1,
-    purchases: 0,
-    description: "Cheerish yourself to very very small carrots",
-  },
-  {
-    name: "Carrot Basket 🧺",
-    cost: 100,
-    rate: 2,
-    purchases: 0,
-    description: "A nice picnic basket full of carrots",
-  },
-  {
-    name: "Carrot Crate 📦",
-    cost: 1000,
-    rate: 50,
-    purchases: 0,
-    description: "A big ol' box of carrots",
-  },
-  {
-    name: "Bunny 🐇",
-    cost: 2000,
-    rate: 75,
-    purchases: 0,
-    description: "Buy a bunny to sniff out carrots",
-  },
-  {
-    name: "Carrot Farmer 🧑‍🌾",
-    cost: 4000,
-    rate: 100,
-    purchases: 0,
-    description: "Hire a farmer to harvest the freshest carrots",
-  },
-];
-
-availableItems.forEach((item) => {
+function createButton(item: Item) {
   const button = document.createElement("button");
   button.textContent = `Buy ${item.name} (${item.cost})`;
   button.style.marginRight = "5px";
@@ -149,21 +92,96 @@ availableItems.forEach((item) => {
     updateButtons();
   });
 
-  app.appendChild(button);
-});
-
-function updateButtons() {
-  availableItems.forEach((item) => {
-    const button = Array.from(app.querySelectorAll("button")).find((btn) =>
-      btn.textContent?.startsWith(`Buy ${item.name}`),
-    ) as HTMLButtonElement;
-
-    if (button) {
-      button.disabled = carrotCount < item.cost;
-    }
-  });
+  return button;
 }
 
+//UI initialization
+document.body.style.backgroundColor = "#fffff";
+
+const gameName = "Carrot Clicker";
+document.title = gameName;
+
+const header = document.createElement("h1");
+header.innerHTML = gameName;
+header.style.color = "#ff7100";
+app.append(header);
+
+const description_instruction = document.createElement("div");
+description_instruction.textContent = "Hover Over Item To Show Description";
+description_instruction.style.fontSize = "20px";
 app.appendChild(description_instruction);
 
+const clicker = document.createElement("button");
+clicker.textContent = "🥕";
+clicker.style.fontSize = "50px";
+clicker.style.marginBottom = "20px";
+app.appendChild(clicker);
+
+const display = document.createElement("div");
+display.id = "counter";
+display.textContent = `Carrots: ${carrotCount}`;
+display.style.fontFamily = "inherit";
+display.style.fontWeight = "bold";
+display.style.fontSize = "35px";
+display.style.marginBottom = "10px";
+display.style.color = "#fbbb89";
+app.appendChild(display);
+
+const totalGrowth = document.createElement("div");
+totalGrowth.id = "totalGrowth";
+totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
+totalGrowth.style.marginBottom = "20px";
+totalGrowth.style.fontSize = "18px";
+app.appendChild(totalGrowth);
+
+//UI Manipulators 
+const availableItems: Item[] = [
+  {
+    name: "Baby Carrot 🥕",
+    cost: INITIAL_COSTS.BABY_CARROT,
+    rate: INITIAL_RATES.BABY_CARROT,
+    purchases: 0,
+    description: "Cheerish yourself to very very small carrots",
+  },
+  {
+    name: "Carrot Basket 🧺",
+    cost: INITIAL_COSTS.CARROT_BASKET,
+    rate: INITIAL_RATES.CARROT_BASKET,
+    purchases: 0,
+    description: "A nice picnic basket full of carrots",
+  },
+  {
+    name: "Carrot Crate 📦",
+    cost: INITIAL_COSTS.CARROT_CRATE,
+    rate: INITIAL_RATES.CARROT_CRATE,
+    purchases: 0,
+    description: "A big ol' box of carrots",
+  },
+  {
+    name: "Bunny 🐇",
+    cost: INITIAL_COSTS.BUNNY,
+    rate: INITIAL_RATES.BUNNY,
+    purchases: 0,
+    description: "Buy a bunny to sniff out carrots",
+  },
+  {
+    name: "Carrot Farmer 🧑‍🌾",
+    cost: INITIAL_COSTS.CARROT_FARMER,
+    rate: INITIAL_RATES.CARROT_FARMER,
+    purchases: 0,
+    description: "Hire a farmer to harvest the freshest carrots",
+  },
+];
+
+availableItems.forEach((item) => {
+  createButton(item);
+});
+
 requestAnimationFrame(updateCounter);
+
+//event handlers
+clicker.addEventListener("click", () => {
+  carrotCount++;
+  display.textContent = `Carrots: ${carrotCount}`;
+  updateButtons();
+});
