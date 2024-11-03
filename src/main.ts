@@ -71,6 +71,7 @@ function createButton(item: Item) {
   purchase.textContent = `Purchased ${item.purchases} time(s)`;
   purchase.style.marginBottom = "10px";
   purchase.style.fontSize = "12px";
+  purchase.style.color = "#ffdfc7";
   app.appendChild(purchase);
 
   button.disabled = true;
@@ -96,25 +97,30 @@ function createButton(item: Item) {
 }
 
 //UI initialization
-document.body.style.backgroundColor = "#fffff";
-
 const gameName = "Carrot Clicker";
 document.title = gameName;
 
 const header = document.createElement("h1");
 header.innerHTML = gameName;
-header.style.color = "#ff7100";
+header.style.color = "#35944e";
+header.style.marginBottom = "20px";
 app.append(header);
 
 const description_instruction = document.createElement("div");
 description_instruction.textContent = "Hover Over Item To Show Description";
 description_instruction.style.fontSize = "20px";
+description_instruction.style.marginBottom = "20px";
+description_instruction.style.fontWeight = "bold";
+description_instruction.style.color = "#ffcca5";
 app.appendChild(description_instruction);
 
 const clicker = document.createElement("button");
 clicker.textContent = "🥕";
-clicker.style.fontSize = "50px";
-clicker.style.marginBottom = "20px";
+clicker.style.fontSize = "150px";
+clicker.style.marginBottom = "15px";
+clicker.style.width = "300px"
+clicker.style.height = "300px"
+clicker.style.padding = "20px";
 app.appendChild(clicker);
 
 const display = document.createElement("div");
@@ -124,7 +130,7 @@ display.style.fontFamily = "inherit";
 display.style.fontWeight = "bold";
 display.style.fontSize = "35px";
 display.style.marginBottom = "10px";
-display.style.color = "#fbbb89";
+display.style.color = "#ffcca5";
 app.appendChild(display);
 
 const totalGrowth = document.createElement("div");
@@ -132,6 +138,8 @@ totalGrowth.id = "totalGrowth";
 totalGrowth.textContent = `Current Growth Rate: ${Math.round(growthRateValue * 10) / 10} Carrots/sec`;
 totalGrowth.style.marginBottom = "20px";
 totalGrowth.style.fontSize = "18px";
+totalGrowth.style.fontWeight = "bold";
+totalGrowth.style.color = "#ffcca5";
 app.appendChild(totalGrowth);
 
 //UI Manipulators 
